@@ -4,7 +4,7 @@ from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout
 
 class FreyrConan(ConanFile):
     name = "freyr"
-    version = "0.1"
+    version = "0.8"
 
     # Optional metadata
     license = "MIT"
