@@ -8,4 +8,12 @@ cmake_install.cmake
 install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
+CMakeUserPresets.json
+graph_info.json
+conan.lock
+conan*.txt
 _deps
+build
+.vs
+.vscode
+.idea
