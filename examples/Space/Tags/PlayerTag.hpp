@@ -1,0 +1,7 @@
+#ifndef FREYR_SPACE_PLAYERTAG_H
+#define FREYR_SPACE_PLAYERTAG_H
+
+struct PlayerTag {
+};
+
+#endif //FREYR_SPACE_PLAYERTAG_H

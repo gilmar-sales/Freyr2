@@ -1,0 +1,8 @@
+#ifndef FREYR_SPACE_MESH_COMPONENT_HPP
+#define FREYR_SPACE_MESH_COMPONENT_HPP
+
+struct MeshComponent {
+    unsigned VAO;
+};
+
+#endif // FREYR_SPACE_MESH_COMPONENT_HPP

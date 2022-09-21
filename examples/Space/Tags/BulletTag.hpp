@@ -1,0 +1,7 @@
+#ifndef FREYR_SPACE_BULLETTAG_HPP
+#define FREYR_SPACE_BULLETTAG_HPP
+
+struct BulletTag {
+};
+
+#endif //FREYR_SPACE_BULLETTAG_HPP

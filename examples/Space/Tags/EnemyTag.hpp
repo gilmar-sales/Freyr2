@@ -1,0 +1,7 @@
+#ifndef FREYR_SPACE_ENEMYTAG_H
+#define FREYR_SPACE_ENEMYTAG_H
+
+struct EnemyTag {
+};
+
+#endif //FREYR_SPACE_ENEMYTAG_H
