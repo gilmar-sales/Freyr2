@@ -8,7 +8,7 @@ FREYR_BEGIN
 
 class FREYR_API ComponentManager
 {
-    using Design = ::Design;
+    using Design        = ::Design;
     using ComponentList = Design::ComponentList;
     template<typename... Ts>
     using TupleOfVectors = meta::List<std::vector<Ts>...>;

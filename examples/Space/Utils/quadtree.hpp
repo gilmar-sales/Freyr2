@@ -1,22 +1,23 @@
-#ifndef SPACE_QUADTREE_HPP
-#define SPACE_QUADTREE_HPP
+#pragma once
 
-#include <vector>
 #include <functional>
 #include <memory>
+#include <vector>
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-struct Entity {
+struct Entity
+{
     unsigned id;
     glm::vec2 position;
     float radius;
 };
 
-class QuadTree {
-public:
+class QuadTree
+{
+  public:
     QuadTree(glm::vec2 position, float half_range, unsigned capacity);
 
     ~QuadTree() = default;
@@ -35,7 +36,7 @@ public:
 
     void draw(unsigned vao, unsigned shaderProgram);
 
-private:
+  private:
     glm::vec2 m_position{};
     float m_half_range;
     std::vector<Entity> m_elements;
@@ -46,5 +47,3 @@ private:
     std::unique_ptr<QuadTree> m_bot_left;
     std::unique_ptr<QuadTree> m_bot_right;
 };
-
-#endif

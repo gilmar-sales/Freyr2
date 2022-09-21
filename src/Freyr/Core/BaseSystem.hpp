@@ -5,6 +5,8 @@
 
 FREYR_BEGIN
 
+class World;
+
 class BaseSystem
 {
   public:

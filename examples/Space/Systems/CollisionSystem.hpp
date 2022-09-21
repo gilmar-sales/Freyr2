@@ -1,5 +1,4 @@
-#ifndef SPACE_ECS_COLLISION_SYSTEM_HPP
-#define SPACE_ECS_COLLISION_SYSTEM_HPP
+#pragma once
 
 #include <Freyr/Core/PublisherSystem.hpp>
 
@@ -13,8 +12,9 @@ struct RigidBodyComponent;
 struct CircleColliderComponent;
 class CombatSystem;
 
-class CollisionSystem : public freyr::PublisherSystem<CombatSystem> {
-public:
+class CollisionSystem: public freyr::PublisherSystem<CombatSystem>
+{
+  public:
     using Signature = std::tuple<TransformComponent, RigidBodyComponent, CircleColliderComponent>;
 
     CollisionSystem() = default;
@@ -23,6 +23,3 @@ public:
 
     void onUpdate() override;
 };
-
-
-#endif // SPACE_ECS_COLLISION_SYSTEM_HPP

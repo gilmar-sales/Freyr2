@@ -1,5 +1,4 @@
-#ifndef SPACE_ECS_RENDER_SYSTEM_HPP
-#define SPACE_ECS_RENDER_SYSTEM_HPP
+#pragma once
 
 #include <Freyr/Core/BaseSystem.hpp>
 
@@ -13,8 +12,9 @@ constexpr float SPRITE_SIZE = 32.0f;
 struct TransformComponent;
 struct SpriteComponent;
 
-class RenderSystem : public freyr::BaseSystem {
-public:
+class RenderSystem: public freyr::BaseSystem
+{
+  public:
     using Signature = std::tuple<TransformComponent, SpriteComponent>;
 
     RenderSystem();
@@ -23,7 +23,7 @@ public:
 
     void onUpdate() override;
 
-private:
+  private:
     GLuint vertexShader;
     GLuint fragmentShader;
     GLuint shaderProgram;
@@ -34,6 +34,3 @@ private:
 
     void updateProjection() const;
 };
-
-
-#endif

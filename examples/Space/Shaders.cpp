@@ -40,4 +40,3 @@ const char *Shaders::fragmentSource = R"glsl(
                 outColor = texColor * vec4(Color, 1.0);
             }
         )glsl";
-

@@ -4,7 +4,7 @@
 #define FREYR_END } // namespace Freyr
 
 #ifdef BUILD_SHARED_LIBRARIES
-#define FREYR_API __declspec( dllexport )
+#define FREYR_API __declspec(dllexport)
 #else
 #define FREYR_API
 #endif
@@ -14,4 +14,3 @@
 #else
 #define FREYR_SPEC inline
 #endif
-

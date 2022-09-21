@@ -14,10 +14,10 @@ class World;
 class FREYR_API EntityManager
 {
   public:
-    using Design = ::Design;
+    using Design        = ::Design;
     using ComponentList = typename Design::ComponentList;
-    using TagList = typename Design::TagList;
-    using Bitset = typename Design::Bitset;
+    using TagList       = typename Design::TagList;
+    using Bitset        = typename Design::Bitset;
 
     explicit EntityManager(unsigned int size = 1024): nextEntity{0}, signatures(size) {}
 

@@ -1,9 +1,7 @@
-#ifndef FREYR_SPACE_SPRITECOMPONENT_H
-#define FREYR_SPACE_SPRITECOMPONENT_H
+#pragma once
 
-#include <vector>
-
-struct SpriteComponent {
+struct SpriteComponent
+{
     unsigned width;
     unsigned height;
     unsigned texture;
@@ -11,5 +9,3 @@ struct SpriteComponent {
     float frameTime;
     unsigned currentFrame;
 };
-
-#endif //FREYR_SPACE_SPRITECOMPONENT_H

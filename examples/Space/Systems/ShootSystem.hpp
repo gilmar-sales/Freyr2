@@ -1,21 +1,19 @@
-#ifndef SPACE_ECS_SHOOT_SYSTEM_HPP
-#define SPACE_ECS_SHOOT_SYSTEM_HPP
+#pragma once
 
-#include <iostream>
-
-#include <Freyr/Types/Entity.hpp>
 #include <Freyr/Core/BaseSystem.hpp>
+#include <Freyr/Types/Entity.hpp>
 
-#include "../Core/Time.hpp"
 #include "../Core/Input.hpp"
 #include "../Core/TextureManager.hpp"
+#include "../Core/Time.hpp"
 
 struct TransformComponent;
 struct RigidBodyComponent;
 struct LaserGunComponent;
 
-class ShootSystem : public freyr::BaseSystem {
-public:
+class ShootSystem: public freyr::BaseSystem
+{
+  public:
     using Signature = std::tuple<TransformComponent, RigidBodyComponent, LaserGunComponent>;
 
     ShootSystem() = default;
@@ -26,5 +24,3 @@ public:
 
     freyr::EntityID createBullet(freyr::EntityID owner);
 };
-
-#endif // SPACE_ECS_SHOOT_SYSTEM_HPP

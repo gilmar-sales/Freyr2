@@ -1,10 +1,11 @@
-#ifndef SPACE_MOUSE_CODES_HPP
-#define SPACE_MOUSE_CODES_HPP
+#pragma once
 
 using MouseCode = unsigned short;
 
-namespace Mouse {
-    enum : MouseCode {
+namespace Mouse
+{
+    enum : MouseCode
+    {
         // From glfw3.h
         Button0 = 0,
         Button1 = 1,
@@ -15,11 +16,9 @@ namespace Mouse {
         Button6 = 6,
         Button7 = 7,
 
-        ButtonLast = Button7,
-        ButtonLeft = Button0,
-        ButtonRight = Button1,
+        ButtonLast   = Button7,
+        ButtonLeft   = Button0,
+        ButtonRight  = Button1,
         ButtonMiddle = Button2
     };
 }
-
-#endif // SPACE_MOUSE_CODES_HPP

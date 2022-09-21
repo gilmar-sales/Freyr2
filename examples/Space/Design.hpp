@@ -4,18 +4,9 @@
 #include "Components.hpp"
 #include "Tags.hpp"
 
-using ComponentList = std::tuple<
-        BulletComponent,
-        CircleColliderComponent,
-        DecayComponent,
-        LaserGunComponent,
-        MeshComponent,
-        NameComponent,
-        PlayerComponent,
-        RigidBodyComponent,
-        SpriteComponent,
-        TransformComponent
-        >;
+using ComponentList =
+    std::tuple<BulletComponent, CircleColliderComponent, DecayComponent, LaserGunComponent, MeshComponent,
+               NameComponent, PlayerComponent, RigidBodyComponent, SpriteComponent, TransformComponent>;
 
 using TagList = std::tuple<PlayerTag, EnemyTag, BulletTag>;
 
@@ -23,4 +14,4 @@ using TagList = std::tuple<PlayerTag, EnemyTag, BulletTag>;
 
 using Design = freyr::Design<ComponentList, TagList>;
 
-#endif //FREYR_EXAMPLE_DESIGN_HPP
+#endif // FREYR_EXAMPLE_DESIGN_HPP

@@ -30,9 +30,9 @@ class SparseSet
     {
         if(!contains(n)) return;
 
-        dense[sparse[n]] = dense[dense.size() - 1];
+        dense[sparse[n]]                = dense[dense.size() - 1];
         sparse[dense[dense.size() - 1]] = sparse[n];
-        sparse[n] = 0;
+        sparse[n]                       = 0;
         dense.pop_back();
         sorted = false;
     }

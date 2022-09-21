@@ -1,7 +1,5 @@
-#ifndef FREYR_SPACE_ENEMYTAG_H
-#define FREYR_SPACE_ENEMYTAG_H
+#pragma once
 
-struct EnemyTag {
+struct EnemyTag
+{
 };
-
-#endif //FREYR_SPACE_ENEMYTAG_H

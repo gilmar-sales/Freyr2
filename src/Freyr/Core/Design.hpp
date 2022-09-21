@@ -9,8 +9,8 @@ class Design
 {
   public:
     using ComponentList = TComponentList;
-    using TagList = TTagList;
-    using ThisType = Design<ComponentList, TagList>;
+    using TagList       = TTagList;
+    using ThisType      = Design<ComponentList, TagList>;
 
     template<typename T>
     static constexpr bool isComponent() noexcept

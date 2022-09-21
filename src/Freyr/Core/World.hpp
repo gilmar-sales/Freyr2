@@ -1,5 +1,4 @@
-#ifndef FREYR_WORLD_HPP
-#define FREYR_WORLD_HPP
+#pragma once
 
 #include "ComponentManager.hpp"
 #include "Design.hpp"
@@ -11,10 +10,10 @@ FREYR_BEGIN
 class FREYR_API World
 {
   public:
-    using Design = typename ::Design;
+    using Design        = typename ::Design;
     using ComponentList = typename Design::ComponentList;
-    using TagList = typename Design::TagList;
-    using Bitset = typename Design::Bitset;
+    using TagList       = typename Design::TagList;
+    using Bitset        = typename Design::Bitset;
 
     explicit World(unsigned capacity = 1024)
         : entityManager(capacity), componentManager(capacity), systemManager(this, capacity),
@@ -242,5 +241,3 @@ class FREYR_API World
 };
 
 FREYR_END
-
-#endif // FREYR_WORLD_HPP

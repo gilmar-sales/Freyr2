@@ -1,5 +1,4 @@
-#ifndef SPACE_INPUT_HPP
-#define SPACE_INPUT_HPP
+#pragma once
 
 #include <glm/glm.hpp>
 
@@ -8,8 +7,9 @@
 
 static KeyCode keys[GLFW_KEY_LAST];
 
-class Input {
-public:
+class Input
+{
+  public:
     static bool GetKeyDown(KeyCode key);
 
     static bool GetKeyUp(KeyCode key);
@@ -24,5 +24,3 @@ public:
 
     static float GetMouseY();
 };
-
-#endif // SPACE_INPUT_HPP

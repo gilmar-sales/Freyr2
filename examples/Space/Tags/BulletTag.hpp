@@ -1,7 +1,5 @@
-#ifndef FREYR_SPACE_BULLETTAG_HPP
-#define FREYR_SPACE_BULLETTAG_HPP
+#pragma once
 
-struct BulletTag {
+struct BulletTag
+{
 };
-
-#endif //FREYR_SPACE_BULLETTAG_HPP

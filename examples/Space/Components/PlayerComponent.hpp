@@ -1,9 +1,7 @@
-#ifndef FREYR_SPACE_PLAYER_COMPONENT_HPP
-#define FREYR_SPACE_PLAYER_COMPONENT_HPP
+#pragma once
 
-struct PlayerComponent {
+struct PlayerComponent
+{
     int lifes;
     unsigned score;
 };
-
-#endif // FREYR_SPACE_PLAYER_COMPONENT_HPP

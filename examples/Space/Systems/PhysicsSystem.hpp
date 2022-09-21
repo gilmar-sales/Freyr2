@@ -1,5 +1,4 @@
-#ifndef SPACE_ECS_PHYSICS_SYSTEM_HPP
-#define SPACE_ECS_PHYSICS_SYSTEM_HPP
+#pragma once
 
 #include <Freyr/Core/BaseSystem.hpp>
 
@@ -10,8 +9,9 @@ struct RigidBodyComponent;
 
 class Application;
 
-class PhysicsSystem : public freyr::BaseSystem {
-public:
+class PhysicsSystem: public freyr::BaseSystem
+{
+  public:
     using Signature = std::tuple<TransformComponent, RigidBodyComponent>;
 
     PhysicsSystem() = default;
@@ -20,5 +20,3 @@ public:
 
     void onUpdate() override;
 };
-
-#endif // SPACE_ECS_PHYSICS_SYSTEM_HPP

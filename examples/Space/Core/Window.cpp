@@ -2,10 +2,12 @@
 
 #include <iostream>
 
-Window::Window(const std::string &title, int width, int height) : data({title, width, height}) {
+Window::Window(const std::string &title, int width, int height): data({title, width, height})
+{
     int glfwStatus = glfwInit();
 
-    if (!glfwStatus) {
+    if(!glfwStatus)
+    {
         std::cout << "Couldn't initialize GLFW!\n";
     }
 
@@ -15,7 +17,8 @@ Window::Window(const std::string &title, int width, int height) : data({title, w
 
     nativeWindow = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 
-    if (!nativeWindow) {
+    if(!nativeWindow)
+    {
         std::cout << "Couldn't initialize GLAD!\n";
     }
 
@@ -23,9 +26,10 @@ Window::Window(const std::string &title, int width, int height) : data({title, w
 
     glfwMakeContextCurrent(nativeWindow);
 
-    int gladStatus = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+    int gladStatus = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
-    if (!gladStatus) {
+    if(!gladStatus)
+    {
         std::cout << "Couldn't initialize GLAD!\n";
     }
 
@@ -34,42 +38,42 @@ Window::Window(const std::string &title, int width, int height) : data({title, w
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glViewport(0, 0, width, height);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     glfwSetFramebufferSizeCallback(nativeWindow, [](GLFWwindow *glfw_window, int width, int height) {
-        auto *window = (Window *) glfwGetWindowUserPointer(glfw_window);
+        auto *window = (Window *)glfwGetWindowUserPointer(glfw_window);
         window->updateSize(width, height);
     });
 
-    glfwSetWindowCloseCallback(nativeWindow, [](GLFWwindow *glfw_window) {
-        glfwSetWindowShouldClose(glfw_window, 1);
-    });
+    glfwSetWindowCloseCallback(nativeWindow, [](GLFWwindow *glfw_window) { glfwSetWindowShouldClose(glfw_window, 1); });
 
-    glfwSetWindowSizeCallback(nativeWindow, [](GLFWwindow* glfw_window, int width, int height){
-        auto *window = (Window *) glfwGetWindowUserPointer(glfw_window);
+    glfwSetWindowSizeCallback(nativeWindow, [](GLFWwindow *glfw_window, int width, int height) {
+        auto *window = (Window *)glfwGetWindowUserPointer(glfw_window);
         window->updateSize(width, height);
     });
 }
 
-Window::~Window() {
+Window::~Window()
+{
     glfwDestroyWindow(nativeWindow);
     glfwTerminate();
 }
 
-void Window::update() {
+void Window::update()
+{
     glClear(GL_COLOR_BUFFER_BIT);
     glfwPollEvents();
 }
 
-void Window::updateSize(int width, int height) {
-    data.width = width;
+void Window::updateSize(int width, int height)
+{
+    data.width  = width;
     data.height = height;
 
     glViewport(0, 0, width, height);
 }
-

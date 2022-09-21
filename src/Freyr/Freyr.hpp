@@ -1,4 +1,4 @@
 #pragma once
 
-#include "Config/Macro.hpp"
+#include "Core/Macro.hpp"
 #include "Types/Entity.hpp"

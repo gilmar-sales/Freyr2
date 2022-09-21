@@ -1,5 +1,4 @@
-#ifndef FREYR_PUBLISHERSYSTEM_HPP
-#define FREYR_PUBLISHERSYSTEM_HPP
+#pragma once
 
 #include "../Meta/Iteration.hpp"
 #include "BaseSystem.hpp"
@@ -20,5 +19,3 @@ class PublisherSystem: public BaseSystem
 };
 
 FREYR_END
-
-#endif // FREYR_PUBLISHERSYSTEM_HPP

@@ -1,5 +1,4 @@
-#ifndef FREYR_SYSTEMMANAGER_HPP
-#define FREYR_SYSTEMMANAGER_HPP
+#pragma once
 
 #include "../Meta/MetaList.hpp"
 
@@ -10,11 +9,11 @@ class World;
 class FREYR_API SystemManager
 {
   public:
-    using Design = ::Design;
+    using Design     = ::Design;
     using SystemList = ::SystemList;
-    using Bitset = typename Design::Bitset;
+    using Bitset     = typename Design::Bitset;
 
-    using SystemsContainer = meta::rename<std::tuple, SystemList>;
+    using SystemsContainer    = meta::rename<std::tuple, SystemList>;
     using SignaturesContainer = meta::generateTuple<Bitset, meta::sizeOf<SystemList>()>;
 
     SystemManager(World *world, unsigned capacity): world(world)
@@ -108,5 +107,3 @@ class FREYR_API SystemManager
 };
 
 FREYR_END
-
-#endif // FREYR_SYSTEMMANAGER_HPP
