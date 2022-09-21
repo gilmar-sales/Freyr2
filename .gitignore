@@ -14,6 +14,7 @@ conan.lock
 conan*.txt
 _deps
 build
+cmake-*
 .vs
 .vscode
 .idea
