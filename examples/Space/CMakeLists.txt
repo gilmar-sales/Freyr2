@@ -14,7 +14,7 @@ target_link_libraries(Space
         glad
         glm
         ${OpenGL_LIBRARY}
-        SDL3
+        SDL3-static
         )
 
 target_precompile_headers(Space
