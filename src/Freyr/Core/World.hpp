@@ -15,7 +15,7 @@ class FREYR_API World
     using TagList       = typename Design::TagList;
     using Bitset        = typename Design::Bitset;
 
-    explicit World(unsigned capacity = 1024)
+    explicit World(unsigned capacity = 1024u)
         : entityManager(capacity), componentManager(capacity), systemManager(this, capacity),
           entitiesMarkedToDestroy(capacity), capacity(capacity)
     {
@@ -25,17 +25,14 @@ class FREYR_API World
 
     EntityID createEntity()
     {
-        if(entityManager.getNextEntity() >= capacity) resize(capacity * 2);
+        if (entityManager.getNextEntity() >= capacity) resize(capacity * 2);
 
         componentManager.resetComponents(entityManager.getNextEntity());
 
         return entityManager.create();
     }
 
-    void destroyEntity(EntityID entity)
-    {
-        entitiesMarkedToDestroy.insert(entity);
-    }
+    void destroyEntity(EntityID entity) { entitiesMarkedToDestroy.insert(entity); }
 
     template<typename T>
     bool hasComponent(EntityID entity)
@@ -66,7 +63,7 @@ class FREYR_API World
 
                 auto &systemSignature = systemManager.getSignature<system_t>();
 
-                if((systemSignature & entityManager.getSignature(entity)) == systemSignature)
+                if ((systemSignature & entityManager.getSignature(entity)) == systemSignature)
                 {
                     system.registerEntity(entity);
                 }
@@ -109,7 +106,7 @@ class FREYR_API World
 
                 auto &sys_sig = systemManager.getSignature<system_t>();
 
-                if((sys_sig & entityManager.getSignature(entity)) != sys_sig)
+                if ((sys_sig & entityManager.getSignature(entity)) != sys_sig)
                 {
                     system.unregisterEntity(entity);
                 }
@@ -128,7 +125,7 @@ class FREYR_API World
 
                 auto &sys_sig = systemManager.getSignature<system_t>();
 
-                if((sys_sig & entityManager.getSignature(id)) == sys_sig)
+                if ((sys_sig & entityManager.getSignature(id)) == sys_sig)
                 {
                     system.registerEntity(id);
                 }
@@ -149,31 +146,19 @@ class FREYR_API World
         systemManager.update([this]() { tearDown(); });
     }
 
-    EntityManager &entities()
-    {
-        return entityManager;
-    }
+    EntityManager &entities() { return entityManager; }
 
-    ComponentManager &components()
-    {
-        return componentManager;
-    }
+    ComponentManager &components() { return componentManager; }
 
-    SystemManager &systems()
-    {
-        return systemManager;
-    }
+    SystemManager &systems() { return systemManager; }
 
-    Design &getDesign()
-    {
-        return design;
-    }
+    Design &getDesign() { return design; }
 
   protected:
     void tearDown()
     {
         entitiesMarkedToDestroy.sort();
-        for(auto entity: entitiesMarkedToDestroy)
+        for (auto entity : entitiesMarkedToDestroy)
         {
             _destroyEntity(entity);
         }
@@ -195,7 +180,7 @@ class FREYR_API World
     void _destroyEntity(EntityID entity)
     {
         auto lastEntity = entityManager.getNextEntity() - 1;
-        if(entity < lastEntity)
+        if (entity < lastEntity)
         {
             meta::forList(
                 [this, entity, lastEntity](auto &system) {
@@ -211,7 +196,7 @@ class FREYR_API World
 
                     auto &systemSignature = this->systemManager.template getSignature<system_t>();
 
-                    if((systemSignature & entityManager.getSignature(lastEntity)) == systemSignature)
+                    if ((systemSignature & entityManager.getSignature(lastEntity)) == systemSignature)
                     {
                         system.registerEntity(entity);
                     }

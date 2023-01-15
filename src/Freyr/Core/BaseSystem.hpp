@@ -12,36 +12,16 @@ class BaseSystem
   public:
     virtual void onUpdate() {}
 
-    template<typename Event>
-    void onReceive(Event event)
-    {
-    }
+    void registerEntity(EntityID id) { registeredEntities.insert(id); }
 
-    void registerEntity(EntityID id)
-    {
-        registeredEntities.insert(id);
-    }
+    void unregisterEntity(EntityID id) { registeredEntities.remove(id); }
 
-    void unregisterEntity(EntityID id)
-    {
-        registeredEntities.remove(id);
-    }
+    inline void resize(unsigned size) { registeredEntities.resize(size); }
 
-    inline void resize(unsigned size)
-    {
-        registeredEntities.resize(size);
-    }
-
-    SparseSet<EntityID> &getRegisteredEntities()
-    {
-        return registeredEntities;
-    }
+    SparseSet<EntityID> &getRegisteredEntities() { return registeredEntities; }
 
   protected:
-    BaseSystem(unsigned capacity = 1024u): registeredEntities(capacity)
-    {
-        world = nullptr;
-    }
+    BaseSystem(unsigned capacity = 1024u) : registeredEntities(capacity) { world = nullptr; }
 
     friend class SystemManager;
     friend class World;

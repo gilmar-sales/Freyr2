@@ -2,6 +2,18 @@
 
 #include "../Meta/MetaList.hpp"
 
+#include <type_traits>
+
+template<typename T, typename = std::void_t<>>
+struct has_subscribers : std::false_type
+{
+};
+
+template<typename T>
+struct has_subscribers<T, std::void_t<decltype(std::declval<T>().m_subscribers)>> : std::true_type
+{
+};
+
 FREYR_BEGIN
 
 class World;
@@ -16,7 +28,7 @@ class FREYR_API SystemManager
     using SystemsContainer    = meta::rename<std::tuple, SystemList>;
     using SignaturesContainer = meta::generateTuple<Bitset, meta::sizeOf<SystemList>()>;
 
-    SystemManager(World *world, unsigned capacity): world(world)
+    SystemManager(World *world, unsigned capacity) : world(world)
     {
         resize(capacity);
         initializeSignatures();
@@ -41,21 +53,18 @@ class FREYR_API SystemManager
         return std::get<meta::indexOf<System, SystemList>()>(signatures);
     }
 
-    SystemsContainer &getSystems()
-    {
-        return systems;
-    }
-
     template<typename System>
     System &get()
     {
         return std::get<meta::indexOf<System, SystemList>()>(systems);
     }
 
-    template<typename System, typename Event>
-    void notify(Event event)
+    SystemsContainer &getSystems() { return systems; }
+
+    template<typename... Systems>
+    std::tuple<Systems &...> getSystems()
     {
-        std::get<meta::indexOf<System, SystemList>()>(systems).onReceive(event);
+        return {&std::get<meta::indexOf<Systems, SystemList>()>(systems)...};
     }
 
     void update(const std::function<void(void)> tearDown)
@@ -84,10 +93,10 @@ class FREYR_API SystemManager
                     [this](auto sig) {
                         using Sig = decltype(sig);
 
-                        if(Design::template isComponent<Sig>())
+                        if (Design::template isComponent<Sig>())
                             std::get<meta::indexOf<System, SystemsContainer>()>(
                                 signatures)[Design::template componentBit<Sig>()] = 1;
-                        else if(Design::template isTag<Sig>())
+                        else if (Design::template isTag<Sig>())
                             std::get<meta::indexOf<System, SystemsContainer>()>(
                                 signatures)[Design::template tagBit<Sig>()] = 1;
                     },
@@ -96,9 +105,27 @@ class FREYR_API SystemManager
             systems);
     }
 
+    template<typename... Systems>
+    std::tuple<Systems *...> getSystemsPtr(std::tuple<Systems *...> a = {})
+    {
+        return {&std::get<meta::indexOf<Systems, SystemList>()>(systems)...};
+    }
+
     void setupSystems()
     {
-        meta::forList([this](auto &system) { system.world = world; }, systems);
+        auto manager = this;
+        meta::forList(
+            [manager](auto &system) {
+                using system_t = std::remove_reference_t<decltype(system)>;
+
+                if constexpr (has_subscribers<system_t>::value)
+                {
+                    system.m_subscribers = manager->getSystemsPtr(system.m_subscribers);
+                }
+
+                system.world = manager->world;
+            },
+            systems);
     }
 
     SystemsContainer systems;
