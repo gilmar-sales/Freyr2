@@ -19,7 +19,7 @@ class FREYR_API EntityManager
     using TagList       = typename Design::TagList;
     using Bitset        = typename Design::Bitset;
 
-    explicit EntityManager(unsigned int size = 1024): nextEntity{0}, signatures(size) {}
+    explicit EntityManager(unsigned int size = 1024) : nextEntity{0}, signatures(size) {}
 
     ~EntityManager() = default;
 
@@ -60,24 +60,15 @@ class FREYR_API EntityManager
         return signatures[entity][Design::template tagBit<T>()];
     }
 
-    Bitset &getSignature(EntityID entity)
-    {
-        return signatures[entity];
-    }
+    Bitset &getSignature(EntityID entity) { return signatures[entity]; }
 
-    void resize(unsigned size)
-    {
-        signatures.resize(size);
-    }
+    void resize(unsigned size) { signatures.resize(size); }
 
-    EntityID getNextEntity()
-    {
-        return nextEntity;
-    }
+    EntityID getNextEntity() { return nextEntity; }
 
     inline void forEach(const std::function<void(EntityID)> &function)
     {
-        for(EntityID entity = 0; entity < nextEntity; entity++)
+        for (EntityID entity = 0; entity < nextEntity; entity++)
         {
             function(entity);
         }
@@ -93,7 +84,7 @@ class FREYR_API EntityManager
     {
         EntityID lastEntity = nextEntity - 1;
 
-        if(entity < lastEntity)
+        if (entity < lastEntity)
         {
             signatures[entity] = signatures[lastEntity];
             signatures[lastEntity].reset();

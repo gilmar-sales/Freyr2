@@ -16,10 +16,7 @@ class FREYR_API ComponentManager
     using ComponentVectors = meta::rename<TupleOfVectors, ComponentList>;
 
   public:
-    explicit ComponentManager(unsigned long size)
-    {
-        resize(size);
-    }
+    explicit ComponentManager(unsigned long size) { resize(size); }
 
     ~ComponentManager() = default;
 

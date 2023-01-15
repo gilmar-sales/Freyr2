@@ -24,15 +24,9 @@ class Design
         return meta::contains<T, TagList>{};
     }
 
-    static constexpr std::size_t componentCount() noexcept
-    {
-        return meta::sizeOf<ComponentList>();
-    }
+    static constexpr std::size_t componentCount() noexcept { return meta::sizeOf<ComponentList>(); }
 
-    static constexpr std::size_t tagCount() noexcept
-    {
-        return meta::sizeOf<TagList>();
-    }
+    static constexpr std::size_t tagCount() noexcept { return meta::sizeOf<TagList>(); }
 
     template<typename T>
     static constexpr std::size_t componentId() noexcept

@@ -1,6 +1,9 @@
 #pragma once
 
-#define FREYR_BEGIN namespace freyr {
+#define FREYR_BEGIN                                                                                                    \
+    namespace freyr                                                                                                    \
+    {
+
 #define FREYR_END } // namespace Freyr
 
 #ifdef BUILD_SHARED_LIBRARIES

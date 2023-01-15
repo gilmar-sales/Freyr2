@@ -43,7 +43,7 @@ namespace meta
         };
 
         template<typename T, typename... Ts>
-        struct sizeOf<std::tuple<T, Ts...>>: sizeOf<std::tuple<Ts...>>
+        struct sizeOf<std::tuple<T, Ts...>> : sizeOf<std::tuple<Ts...>>
         {
             static constexpr int value = sizeOf<std::tuple<Ts...>>::value + 1;
         };
@@ -53,17 +53,17 @@ namespace meta
         struct contains;
 
         template<typename T>
-        struct contains<T, std::tuple<>>: std::false_type
+        struct contains<T, std::tuple<>> : std::false_type
         {
         };
 
         template<typename T, typename U, typename... Ts>
-        struct contains<T, std::tuple<U, Ts...>>: contains<T, std::tuple<Ts...>>
+        struct contains<T, std::tuple<U, Ts...>> : contains<T, std::tuple<Ts...>>
         {
         };
 
         template<typename T, typename... Ts>
-        struct contains<T, std::tuple<T, Ts...>>: std::true_type
+        struct contains<T, std::tuple<T, Ts...>> : std::true_type
         {
         };
 
