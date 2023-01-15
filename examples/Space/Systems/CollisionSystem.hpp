@@ -12,7 +12,7 @@ struct RigidBodyComponent;
 struct CircleColliderComponent;
 class CombatSystem;
 
-class CollisionSystem: public freyr::PublisherSystem<CombatSystem>
+class CollisionSystem : public freyr::PublisherSystem<CombatSystem>
 {
   public:
     using Signature = std::tuple<TransformComponent, RigidBodyComponent, CircleColliderComponent>;

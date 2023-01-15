@@ -8,7 +8,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-struct Entity
+struct ColliderData
 {
     unsigned id;
     glm::vec2 position;
@@ -22,24 +22,24 @@ class QuadTree
 
     ~QuadTree() = default;
 
-    bool insert(Entity entity);
+    bool insert(ColliderData entity);
 
     void subdivide();
 
-    void query(Entity entity, std::vector<Entity> *found);
+    void query(ColliderData entity, std::vector<ColliderData> *found);
 
-    bool contains(Entity entity);
+    bool contains(ColliderData entity);
 
-    bool collide(Entity first, Entity second);
+    bool collide(ColliderData first, ColliderData second);
 
-    bool intersect(Entity entity);
+    bool intersect(ColliderData entity);
 
     void draw(unsigned vao, unsigned shaderProgram);
 
   private:
     glm::vec2 m_position{};
     float m_half_range;
-    std::vector<Entity> m_elements;
+    std::vector<ColliderData> m_elements;
     unsigned m_capacity;
 
     std::unique_ptr<QuadTree> m_top_left;

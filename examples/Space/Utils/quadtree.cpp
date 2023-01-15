@@ -4,7 +4,7 @@ QuadTree::QuadTree(glm::vec2 position, float half_range, unsigned capacity)
 {
     m_position   = position;
     m_half_range = half_range;
-    m_elements   = std::vector<Entity>(0);
+    m_elements   = std::vector<ColliderData>(0);
     m_elements.reserve(capacity);
     m_capacity = capacity;
 
@@ -14,7 +14,7 @@ QuadTree::QuadTree(glm::vec2 position, float half_range, unsigned capacity)
     m_bot_right = nullptr;
 }
 
-bool QuadTree::insert(Entity entity)
+bool QuadTree::insert(ColliderData entity)
 {
     if(!contains(entity))
     {
@@ -63,7 +63,7 @@ void QuadTree::subdivide()
     m_bot_right = std::make_unique<QuadTree>(bot_right_pos, half_range, m_capacity);
 }
 
-void QuadTree::query(Entity entity, std::vector<Entity> *found)
+void QuadTree::query(ColliderData entity, std::vector<ColliderData> *found)
 {
     if(!intersect(entity))
     {
@@ -89,19 +89,19 @@ void QuadTree::query(Entity entity, std::vector<Entity> *found)
     }
 }
 
-bool QuadTree::contains(Entity entity)
+bool QuadTree::contains(ColliderData entity)
 {
     return (entity.position.x >= m_position.x - m_half_range && entity.position.x <= m_position.x + m_half_range &&
             entity.position.y >= m_position.y - m_half_range && entity.position.y <= m_position.y + m_half_range);
 }
 
-bool QuadTree::collide(Entity first, Entity second)
+bool QuadTree::collide(ColliderData first, ColliderData second)
 {
     float distance = glm::distance(first.position, second.position);
     return (distance <= first.radius + second.radius);
 }
 
-bool QuadTree::intersect(Entity entity)
+bool QuadTree::intersect(ColliderData entity)
 {
     return (entity.position.x >= m_position.x - (m_half_range + entity.radius) &&
             entity.position.x <= m_position.x + (m_half_range + entity.radius) &&

@@ -1,32 +1,38 @@
 #include "CollisionSystem.hpp"
 
 #include "../Core/Application.hpp"
+#include "../World.hpp"
 
 void CollisionSystem::onUpdate()
 {
     float halfWidth   = (float)Application::Get().getWindow().getWidth() * 0.5f;
     QuadTree quadtree = QuadTree(glm::vec2(0, 0), halfWidth, 4);
 
-    for(auto entity: getRegisteredEntities())
+    for (auto entity : getRegisteredEntities())
     {
-        auto &transform = world->getComponent<TransformComponent>(entity);
-        auto &collider  = world->getComponent<CircleColliderComponent>(entity);
-        quadtree.insert({entity, glm::vec2(transform.position.x, transform.position.y), collider.radius});
+        auto [transform, collider] = world->getComponents<TransformComponent, CircleColliderComponent>(entity);
+
+        quadtree.insert({.id       = entity,
+                         .position = glm::vec2(transform.position.x, transform.position.y),
+                         .radius   = collider.radius});
     }
 
-    for(auto entity: getRegisteredEntities())
+    for (auto entity : getRegisteredEntities())
     {
-        auto &transform = world->getComponent<TransformComponent>(entity);
-        auto &rigidbody = world->getComponent<RigidBodyComponent>(entity);
-        auto &collider  = world->getComponent<CircleColliderComponent>(entity);
+        auto [transform, rigidbody, collider] =
+            world->getComponents<TransformComponent, RigidBodyComponent, CircleColliderComponent>(entity);
 
-        Entity ent = {entity, glm::vec2(transform.position.x, transform.position.y), collider.radius * collider.scale};
-        std::vector<Entity> collisions = std::vector<Entity>();
-        quadtree.query(ent, &collisions);
+        std::vector<ColliderData> collisions = std::vector<ColliderData>();
 
-        for(auto &collision: collisions)
+        ColliderData collisor = {.id       = entity,
+                                 .position = glm::vec2(transform.position.x, transform.position.y),
+                                 .radius   = collider.radius * collider.scale};
+
+        quadtree.query(collisor, &collisions);
+
+        for (auto &collision : collisions)
         {
-            notify(world, CollisionEvent{.collisor = entity, .target = collision.id});
+            notify(CollisionEvent{.collisor = collisor.id, .target = collision.id});
         }
     }
 }
