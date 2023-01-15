@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-#include <GLFW/glfw3.h>
+#include <SDL3/SDL.h>
 #include <glad/glad.h>
 
 struct WindowData
@@ -20,31 +20,21 @@ class Window
 
     ~Window();
 
-    GLFWwindow *get_native_window()
-    {
-        return nativeWindow;
-    }
+    bool shouldClose() { return SDL_QuitRequested(); };
 
-    int getWidth() const
-    {
-        return data.width;
-    }
+    SDL_Window *getNativeWindow() { return nativeWindow; }
 
-    int getHeight() const
-    {
-        return data.height;
-    }
+    int getWidth() const { return data.width; }
 
-    std::string getTitle() const
-    {
-        return data.title;
-    }
+    int getHeight() const { return data.height; }
+
+    std::string getTitle() const { return data.title; }
 
     void update();
+    void updateSize(int width, int height);
 
   private:
     WindowData data;
-    GLFWwindow *nativeWindow;
-
-    void updateSize(int width, int height);
+    SDL_Window *nativeWindow;
+    SDL_GLContext glContext;
 };

@@ -2,30 +2,24 @@
 
 #include <random>
 
-#include "../Core/Input.hpp"
 #include "../Core/TextureManager.hpp"
 #include "../Core/Time.hpp"
 #include "../World.hpp"
 
 void MeteorManagerSystem::onUpdate()
 {
-    static float waveTime = 0.0f;
-    waveTime += Time::DeltaTime;
-
-    if(waveTime > 15.f)
+    if (getRegisteredEntities().size() == 0)
     {
-        waveTime = 0.0f;
         std::cout << "MeteorManager: Instancing new wave - " << currentWave << std::endl;
-        for(int i = 0; i < currentWave; i++)
+        for (int i = 0; i < currentWave; i++)
         {
             auto meteor = world->createEntity();
 
             world->addTag<EnemyTag>(meteor);
 
-            auto &transform = world->addComponent<TransformComponent>(meteor);
-            auto &rigidbody = world->addComponent<RigidBodyComponent>(meteor);
-            auto &sprite    = world->addComponent<SpriteComponent>(meteor);
-            auto &collider  = world->addComponent<CircleColliderComponent>(meteor);
+            auto [transform, rigidbody, sprite, collider] =
+                world->addComponents<TransformComponent, RigidBodyComponent, SpriteComponent, CircleColliderComponent>(
+                    meteor);
 
             std::random_device rd;                               // obtain a random number from hardware
             std::mt19937 gen(rd());                              // seed the generator
@@ -64,7 +58,7 @@ void MeteorManagerSystem::onReceive(PlayerEndGameEvent event)
     currentWave = firstWave;
     nextWave    = secondWave;
 
-    for(auto entity: getRegisteredEntities())
+    for (auto entity : getRegisteredEntities())
     {
         world->destroyEntity(entity);
     }

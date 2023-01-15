@@ -2,33 +2,45 @@
 
 #include <sstream>
 
+#include "../Core/TextureManager.hpp"
+#include "../Events/InputEvents.hpp"
 #include "../World.hpp"
 
 void PlayerMoveSystem::onUpdate()
 {
-    for(auto entity: getRegisteredEntities())
+    for (auto entity : getRegisteredEntities())
     {
         auto [transform, rigidbody, player] =
             world->getComponents<TransformComponent, RigidBodyComponent, PlayerComponent>(entity);
 
-        if(Input::IsKeyPressed(Key::W))
+        if (m_velocity > 0.f)
         {
-            auto leftBoost    = createBoost(entity);
-            auto rightBoost   = createBoost(entity);
             glm::vec3 forward = transform.getForwardDirection();
+            rigidbody.velocity += forward * m_velocity * Time::DeltaTime;
 
-            rigidbody.velocity += forward * 300.f * Time::DeltaTime;
+            auto leftBoost  = createBoost(entity);
+            auto rightBoost = createBoost(entity);
+
             placeBoost(entity, leftBoost, rightBoost);
         }
 
-        if(Input::IsKeyPressed(Key::A))
-        {
-            transform.rotation.z += 90 * Time::DeltaTime;
-        }
-        else if(Input::IsKeyPressed(Key::D))
-        {
-            transform.rotation.z -= 90 * Time::DeltaTime;
-        }
+        transform.rotation.z += m_turnVelocity * Time::DeltaTime;
+    }
+}
+
+void PlayerMoveSystem::onReceive(const KeyPressedEvent &event)
+{
+    if (event.key == Key::A)
+    {
+        m_turnVelocity = 90.f * event.value;
+    }
+    else if (event.key == Key::D)
+    {
+        m_turnVelocity = -90.f * event.value;
+    }
+    else if (event.key == Key::W)
+    {
+        m_velocity = 300.f * event.value;
     }
 }
 
@@ -40,7 +52,7 @@ freyr::EntityID PlayerMoveSystem::createBoost(freyr::EntityID owner)
 
     frameTime += Time::DeltaTime;
 
-    if(frameTime > 0.1f)
+    if (frameTime > 0.1f)
     {
         frameTime = 0;
         frame     = frame >= 4 ? 1 : frame + 1;
@@ -59,7 +71,7 @@ freyr::EntityID PlayerMoveSystem::createBoost(freyr::EntityID owner)
          .height        = 64,
          .texture       = TextureManager::Get()->getTextureIndex(builder.str()),
          .texturesCount = 1},
-        {.maxTime = Time::DeltaTime * 4, .current = 0});
+        {.maxTime = Time::DeltaTime * 4, .currentTime = 0});
 
     return boost;
 }

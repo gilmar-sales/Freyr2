@@ -3,7 +3,7 @@
 #include "../Components/SpriteComponent.hpp"
 #include "../Core/Application.hpp"
 
-RenderSystem::RenderSystem(): color(1.0f, 1.0f, 1.0f)
+RenderSystem::RenderSystem() : color(1.0f, 1.0f, 1.0f)
 {
     // Initialize Sprite Quad Mesh
     float vertices[] = {
@@ -62,7 +62,7 @@ RenderSystem::RenderSystem(): color(1.0f, 1.0f, 1.0f)
     char infoLog[512];
     // check for linking errors
     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if(!success)
+    if (!success)
     {
         glGetProgramInfoLog(shaderProgram, 512, nullptr, infoLog);
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
@@ -81,13 +81,16 @@ RenderSystem::RenderSystem(): color(1.0f, 1.0f, 1.0f)
 
 void RenderSystem::updateProjection() const
 {
-    float half_width     = (float)Application::Get().getWindow().getWidth() / 2;
-    float half_height    = (float)Application::Get().getWindow().getHeight() / 2;
+    float half_width     = Application::Get().getWindow().getWidth() * 0.5f;
+    float half_height    = Application::Get().getWindow().getHeight() * 0.5f;
     glm::mat4 projection = glm::mat4(1.0f);
 
     projection = glm::ortho(-half_width, half_width, -half_height, half_height, -1000.0f, 1000.0f);
 
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, &projection[0][0]);
+
+    float res[] = {(float)Application::Get().getWindow().getWidth(), (float)Application::Get().getWindow().getHeight()};
+    glUniform2fv(glGetUniformLocation(shaderProgram, "resolution"), 1, res);
 }
 
 RenderSystem::~RenderSystem()
@@ -101,24 +104,23 @@ RenderSystem::~RenderSystem()
 void RenderSystem::onUpdate()
 {
     updateProjection();
-    for(unsigned int entity: getRegisteredEntities())
+    for (unsigned int entity : getRegisteredEntities())
     {
-        auto &transform = world->getComponent<TransformComponent>(entity);
-        auto &sprite    = world->getComponent<SpriteComponent>(entity);
+        auto [transform, sprite] = world->getComponents<TransformComponent, SpriteComponent>(entity);
 
         glm::mat4 model = glm::mat4(1.0f);
         model           = glm::translate(model, transform.position);
         model           = glm::scale(model, transform.scale * SPRITE_SIZE);
         model           = glm::rotate(model, glm::radians(transform.rotation.z), {0, 0, 1});
 
-        if(sprite.texturesCount > 1)
+        if (sprite.texturesCount > 1)
         {
             sprite.frameTime += Time::DeltaTime;
 
-            if(sprite.frameTime > 0.1f)
+            if (sprite.frameTime > 0.1f)
             {
                 sprite.currentFrame += 1;
-                if(sprite.currentFrame >= sprite.texturesCount)
+                if (sprite.currentFrame >= sprite.texturesCount)
                 {
                     sprite.currentFrame = 0;
                 }

@@ -1,38 +1,39 @@
 #include "Application.hpp"
 
-#include <GLFW/glfw3.h>
 #include <sstream>
 
+#include "TextureManager.hpp"
 #include "Time.hpp"
 
 Application *Application::instance = nullptr;
 
-Application::Application(): window("Space", 800, 600), world(freyr::World())
+Application::Application() : window("Space", 800, 600), world(freyr::World())
 {
     assert(!instance);
     instance = this;
 
     initPlayer();
-    glfwSwapInterval(0);
 }
 
 void Application::run()
 {
-    auto previousTime          = (float)glfwGetTime();
+    auto previousTime          = SDL_GetTicks() * 1e-3f;
     float frametimeAccumulator = 0;
     float frames               = 0;
-    while(!glfwWindowShouldClose(window.get_native_window()))
+    while (!window.shouldClose())
     {
-        auto now        = (float)glfwGetTime();
+        auto now  = SDL_GetTicks() * 1e-3f;
+        Time::Now = now;
+
         Time::DeltaTime = now - previousTime;
         previousTime    = now;
 
         frametimeAccumulator += Time::DeltaTime;
         frames += 1;
 
-        if(frametimeAccumulator >= 1)
+        if (frametimeAccumulator >= 1)
         {
-            if(world.entities().getNextEntity())
+            if (world.entities().getNextEntity())
             {
                 auto &player = world.addComponent<PlayerComponent>(0);
                 std::stringstream ss;
@@ -40,7 +41,7 @@ void Application::run()
                    << " - Lifes: " << player.lifes << " - Score: " << player.score << " - Entities: ";
                 ss << world.entities().getNextEntity();
 
-                glfwSetWindowTitle(window.get_native_window(), ss.str().c_str());
+                SDL_SetWindowTitle(window.getNativeWindow(), ss.str().c_str());
             }
 
             frametimeAccumulator = 0;
@@ -50,7 +51,7 @@ void Application::run()
         window.update();
 
         world.update();
-        glfwSwapBuffers(window.get_native_window());
+        SDL_GL_SwapWindow(window.getNativeWindow());
     }
 }
 
@@ -63,7 +64,7 @@ void Application::initPlayer()
     auto &rigidbody      = world.addComponent<RigidBodyComponent>(ent);
     auto &circleCollider = world.addComponent<CircleColliderComponent>(ent);
     auto &life           = world.addComponent<PlayerComponent>(ent);
-    auto &gun            = world.addComponent<LaserGunComponent>(ent, {.maxShotsPerSecond = 8});
+    auto &gun            = world.addComponent<LaserGunComponent>(ent, {});
     world.addTag<PlayerTag>(ent);
 
     transform.scale = {1.f, 1.f, 1.f};

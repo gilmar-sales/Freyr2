@@ -5,15 +5,14 @@
 
 void DecaySystem::onUpdate()
 {
-    for(auto entity: getRegisteredEntities())
+    for (auto entity : getRegisteredEntities())
     {
         auto &decay = world->getComponent<DecayComponent>(entity);
-        decay.current += Time::DeltaTime;
+        decay.currentTime += Time::DeltaTime;
 
-        if(decay.current > decay.maxTime)
+        if (decay.currentTime > decay.maxTime)
         {
-            decay.current = 0.f;
-            decay.maxTime = 0.f;
+            decay = {};
             world->destroyEntity(entity);
         }
     }
