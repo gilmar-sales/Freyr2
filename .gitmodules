@@ -1,0 +1,9 @@
+[submodule "examples/dependencies/glm"]
+	path = examples/dependencies/glm
+	url = https://github.com/g-truc/glm.git
+[submodule "examples/dependencies/glad"]
+	path = examples/dependencies/glad
+	url = https://github.com/gilmar-sales/glad.git
+[submodule "examples/dependencies/SDL"]
+	path = examples/dependencies/SDL
+	url = https://github.com/libsdl-org/SDL.git
