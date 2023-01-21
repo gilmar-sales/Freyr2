@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iterator>
+#include <mutex>
 #include <vector>
 
 template<typename T>
@@ -19,7 +20,8 @@ class SparseSet
 
     void insert(T n)
     {
-        if(contains(n)) return;
+        if (contains(n)) return;
+        std::lock_guard<std::mutex> lock{m_lock};
 
         sparse[n] = (T)dense.size();
         dense.push_back(n);
@@ -28,7 +30,8 @@ class SparseSet
 
     void remove(T n)
     {
-        if(!contains(n)) return;
+        if (!contains(n)) return;
+        std::lock_guard<std::mutex> lock{m_lock};
 
         dense[sparse[n]]                = dense[dense.size() - 1];
         sparse[dense[dense.size() - 1]] = sparse[n];
@@ -37,15 +40,9 @@ class SparseSet
         sorted = false;
     }
 
-    bool contains(T n) const
-    {
-        return sparse[n] < dense.size() && dense[sparse[n]] == n;
-    }
+    bool contains(T n) const { return sparse[n] < dense.size() && dense[sparse[n]] == n; }
 
-    void clear()
-    {
-        dense.clear();
-    }
+    void clear() { dense.clear(); }
 
     void resize(unsigned size)
     {
@@ -55,48 +52,35 @@ class SparseSet
 
     void sort()
     {
-        if(sorted) return;
+        if (sorted) return;
+        std::lock_guard<std::mutex> lock{m_lock};
         denseSort();
 
         sparseReorder();
         sorted = true;
     }
 
-    T &operator[](int index)
-    {
-        return dense[index];
-    };
+    T &operator[](int index) { return dense[index]; };
 
-    size_t size()
-    {
-        return dense.size();
-    }
+    size_t size() { return dense.size(); }
 
-    auto begin() const
-    {
-        return dense.rbegin();
-    }
+    auto begin() const { return dense.rbegin(); }
 
-    auto end() const
-    {
-        return dense.rend();
-    }
+    auto end() const { return dense.rend(); }
 
   protected:
-    FREYR_SPEC void denseSort()
-    {
-        std::sort(dense.begin(), dense.end());
-    }
+    FREYR_SPEC void denseSort() { std::sort(dense.begin(), dense.end()); }
 
     FREYR_SPEC void sparseReorder()
     {
-        for(T i = 0; i < dense.size(); i++)
+        for (T i = 0; i < dense.size(); i++)
         {
             sparse[dense[i]] = i;
         }
     }
 
   private:
+    std::mutex m_lock;
     std::vector<T> dense;
     std::vector<T> sparse;
     bool sorted;
