@@ -14,6 +14,11 @@ void ShootSystem::onReceive(const KeyDownEvent &event)
             auto [transform, rigidbody, laserGun] =
                 world->getComponents<TransformComponent, RigidBodyComponent, LaserGunComponent>(entity);
 
+            if (Time::Now - laserGun.lastShootTime >= laserGun.reloadTime)
+            {
+                laserGun.ammoSpent = 0;
+            }
+
             bool canShot = laserGun.ammoSpent < laserGun.ammo;
 
             if (canShot)
@@ -32,11 +37,6 @@ void ShootSystem::onReceive(const KeyDownEvent &event)
                 auto rightBullet              = createBullet(entity);
                 auto &rightBulletTransform    = world->addComponent<TransformComponent>(rightBullet);
                 rightBulletTransform.position = transform.position + glm::normalize(forward + right) * 40.f;
-            }
-
-            if (Time::Now - laserGun.lastShootTime >= laserGun.reloadTime)
-            {
-                laserGun.ammoSpent = 0;
             }
         }
     }

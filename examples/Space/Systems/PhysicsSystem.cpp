@@ -2,14 +2,16 @@
 
 #include "../Core/Application.hpp"
 
+#include <execution>
+
 void PhysicsSystem::onUpdate()
 {
-    for(auto entity: getRegisteredEntities())
-    {
-        auto [transform, rigidbody] = world->getComponents<TransformComponent, RigidBodyComponent>(entity);
+    std::for_each(
+        std::execution::par, getRegisteredEntities().begin(), getRegisteredEntities().end(), [&](auto entity) {
+            auto [transform, rigidbody] = world->getComponents<TransformComponent, RigidBodyComponent>(entity);
 
-        transform.position += rigidbody.velocity * Time::DeltaTime;
+            transform.position += rigidbody.velocity * Time::DeltaTime;
 
-        rigidbody.velocity /= 1 + rigidbody.mass * Time::DeltaTime;
-    }
+            rigidbody.velocity /= 1 + rigidbody.mass * Time::DeltaTime;
+        });
 }

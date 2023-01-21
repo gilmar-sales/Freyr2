@@ -3,6 +3,8 @@
 #include "../Core/Application.hpp"
 #include "../Events/InputEvents.hpp"
 
+#include <execution>
+
 void InputSystem::onUpdate()
 {
     SDL_Event event;
@@ -16,14 +18,21 @@ void InputSystem::onUpdate()
         }
         case SDL_KEYDOWN: {
             auto key = (KeyCode)event.key.keysym.scancode;
-            notify(KeyDownEvent{.key = key});
-            m_pressedKeys.insert(key);
+
+            if (!m_pressedKeys.contains(key))
+            {
+                notify(KeyDownEvent{.key = key});
+
+                m_pressedKeys.insert(key);
+            }
             break;
         }
         case SDL_KEYUP: {
             auto key = (KeyCode)event.key.keysym.scancode;
+
             notify(KeyUpEvent{.key = key});
             notify(KeyPressedEvent{.key = key, .value = 0.0f});
+
             m_pressedKeys.remove(key);
             break;
         }
@@ -32,8 +41,6 @@ void InputSystem::onUpdate()
         }
     }
 
-    for (auto key : m_pressedKeys)
-    {
-        notify(KeyPressedEvent{.key = key, .value = 1.0f});
-    }
+    std::for_each(std::execution::par, m_pressedKeys.begin(), m_pressedKeys.end(),
+                  [&](auto key) { notify(KeyPressedEvent{.key = key, .value = 1.0f}); });
 }
