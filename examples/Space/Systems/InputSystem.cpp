@@ -12,6 +12,9 @@ void InputSystem::onUpdate()
     {
         switch (event.type)
         {
+        case SDL_WINDOWEVENT_CLOSE: {
+            Application::Get().getWindow().close();
+        }
         case SDL_WINDOWEVENT_RESIZED: {
             Application::Get().getWindow().updateSize(event.window.data1, event.window.data2);
             break;

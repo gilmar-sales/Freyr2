@@ -20,7 +20,7 @@ class Window
 
     ~Window();
 
-    bool shouldClose() { return SDL_QuitRequested(); };
+    bool shouldClose() { return !running; }
 
     SDL_Window *getNativeWindow() { return nativeWindow; }
 
@@ -32,8 +32,10 @@ class Window
 
     void update();
     void updateSize(int width, int height);
+    void close() { running = false; }
 
   private:
+    bool running;
     WindowData data;
     SDL_Window *nativeWindow;
     SDL_GLContext glContext;

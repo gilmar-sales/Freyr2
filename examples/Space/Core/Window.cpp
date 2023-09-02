@@ -2,11 +2,10 @@
 
 #include <iostream>
 
-Window::Window(const std::string &title, int width, int height) : data({title, width, height})
+Window::Window(const std::string &title, int width, int height) : data({title, width, height}), running(true)
 {
     int sdlStatus = SDL_Init(SDL_INIT_VIDEO);
-
-    if (sdlStatus < 0) throw std::exception("Couldn't initialize SDL!\n");
+    if (sdlStatus < 0) throw std::runtime_error("Couldn't initialize SDL!\n");
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
@@ -15,14 +14,14 @@ Window::Window(const std::string &title, int width, int height) : data({title, w
     nativeWindow = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height,
                                     SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
-    if (!nativeWindow) throw std::exception("Failed to create SDL window!\n");
+    if (!nativeWindow) throw std::runtime_error("Failed to create SDL window!\n");
 
     glContext = SDL_GL_CreateContext(nativeWindow);
     SDL_SetWindowData(nativeWindow, "Window", this);
 
     int gladStatus = gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress);
 
-    if (!gladStatus) throw std::exception("Couldn't initialize GLAD!\n");
+    if (!gladStatus) throw std::runtime_error("Couldn't initialize GLAD!\n");
 
     std::cout << glGetString(GL_VERSION) << "\n";
 
@@ -34,6 +33,8 @@ Window::Window(const std::string &title, int width, int height) : data({title, w
 
     glViewport(0, 0, width, height);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+    SDL_GL_SetSwapInterval(0);
 }
 
 Window::~Window()
