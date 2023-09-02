@@ -1,20 +1,19 @@
 #include "CollisionSystem.hpp"
 
 #include "../Core/Application.hpp"
-#include "../World.hpp"
 
 #include <execution>
 
 void CollisionSystem::onUpdate()
 {
     float halfWidth = Application::Get().getWindow().getWidth() * 0.5f;
-    auto quadtree   = QuadTree(glm::vec2(0, 0), halfWidth, 4);
+    auto quadtree   = std::make_shared<QuadTree>(glm::vec2(0, 0), halfWidth, 4);
 
     for (auto entity : getRegisteredEntities())
     {
         auto [transform, collider] = world->getComponents<TransformComponent, CircleColliderComponent>(entity);
 
-        quadtree.insert({.id       = entity,
+        quadtree->insert({.id       = entity,
                           .position = glm::vec2(transform.position.x, transform.position.y),
                           .radius   = collider.radius});
     }
@@ -30,7 +29,7 @@ void CollisionSystem::onUpdate()
                                                .position = glm::vec2(transform.position.x, transform.position.y),
                                                .radius   = collider.radius * collider.scale};
 
-                      quadtree.query(collisor, &collisions);
+                      quadtree->query(collisor, &collisions);
 
                       for (auto &collision : collisions)
                       {

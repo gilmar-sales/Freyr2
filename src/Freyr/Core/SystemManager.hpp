@@ -4,16 +4,6 @@
 
 #include <type_traits>
 
-template<typename T, typename = std::void_t<>>
-struct has_subscribers : std::false_type
-{
-};
-
-template<typename T>
-struct has_subscribers<T, std::void_t<decltype(std::declval<T>().m_subscribers)>> : std::true_type
-{
-};
-
 FREYR_BEGIN
 
 class World;
@@ -110,6 +100,16 @@ class FREYR_API SystemManager
     {
         return {&std::get<meta::indexOf<Systems, SystemList>()>(systems)...};
     }
+
+    template<typename T, typename = std::void_t<>>
+    struct has_subscribers : std::false_type
+    {
+    };
+
+    template<typename T>
+    struct has_subscribers<T, std::void_t<decltype(std::declval<T>().m_subscribers)>> : std::true_type
+    {
+    };
 
     void setupSystems()
     {
