@@ -1,5 +1,7 @@
 #include "Window.hpp"
 
+#include "../../dependencies/SDL/include/SDL3/SDL_init.h"
+
 #include <iostream>
 
 Window::Window(const std::string &title, int width, int height) : data({title, width, height}), running(true)
@@ -11,13 +13,12 @@ Window::Window(const std::string &title, int width, int height) : data({title, w
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-    nativeWindow = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height,
-                                    SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+    nativeWindow = SDL_CreateWindow(title.c_str(), width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
     if (!nativeWindow) throw std::runtime_error("Failed to create SDL window!\n");
 
     glContext = SDL_GL_CreateContext(nativeWindow);
-    SDL_SetWindowData(nativeWindow, "Window", this);
+    SDL_SetPointerProperty(SDL_PROPERTY_TYPE_POINTER, "Window", this);
 
     int gladStatus = gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress);
 
