@@ -13,6 +13,12 @@ file(GLOB_RECURSE FREYR_SOURCE
 add_library(freyr INTERFACE ${FREYR_SRC})
 add_library(freyr::freyr ALIAS freyr)
 
+find_package(TBB QUIET)
+
+if (${TBB_FOUND})
+    target_link_libraries(freyr INTERFACE TBB::tbb)
+endif ()
+
 target_include_directories(freyr INTERFACE
         $<BUILD_INTERFACE:${freyr_SOURCE_DIR}/src>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/src>
