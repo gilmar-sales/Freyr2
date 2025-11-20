@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Freyr/Core/PublisherSystem.hpp>
+#include <FreyrCT/Core/PublisherSystem.hpp>
 
 #include "../Core/KeyCodes.hpp"
 

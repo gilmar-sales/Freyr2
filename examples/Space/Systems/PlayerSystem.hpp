@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Freyr/Core/PublisherSystem.hpp>
+#include <FreyrCT/Core/PublisherSystem.hpp>
 
 #include "../Components/PlayerComponent.hpp"
 #include "../Components/TransformComponent.hpp"

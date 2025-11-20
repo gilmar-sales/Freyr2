@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Freyr/Core/BaseSystem.hpp>
+#include <FreyrCT/Core/BaseSystem.hpp>
 
 struct DecayComponent;
 struct BulletTag;

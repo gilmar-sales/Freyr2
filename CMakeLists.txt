@@ -37,7 +37,7 @@ target_precompile_headers(
         <bitset>
         <memory>
         <functional>
-        src/Freyr/Core/Macro.hpp
+        src/FreyrCT/Core/Macro.hpp
 )
 
 option(FREYR_BUILD_EXAMPLES "Build Freyr examples." OFF)
@@ -56,5 +56,5 @@ if (FREYR_BUILD_TESTS)
     add_subdirectory(tests)
 endif ()
 
-set_target_properties(freyr_ct PROPERTIES PUBLIC_HEADER "src/Freyr/Freyr.hpp")
+set_target_properties(freyr_ct PROPERTIES PUBLIC_HEADER "src/FreyrCT/Freyr.hpp")
 install(TARGETS freyr_ct)

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Freyr/Core/BaseSystem.hpp>
-#include <Freyr/Types/Entity.hpp>
+#include <FreyrCT/Core/BaseSystem.hpp>
+#include <FreyrCT/Types/Entity.hpp>
 
 #include "../Events/InputEvents.hpp"
 

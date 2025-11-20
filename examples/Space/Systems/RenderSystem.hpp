@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Freyr/Core/BaseSystem.hpp>
+#include <FreyrCT/Core/BaseSystem.hpp>
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>

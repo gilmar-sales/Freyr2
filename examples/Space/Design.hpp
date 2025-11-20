@@ -10,7 +10,7 @@ using ComponentList =
 
 using TagList = std::tuple<PlayerTag, EnemyTag, BulletTag>;
 
-#include <Freyr/Core/Design.hpp>
+#include <FreyrCT/Core/Design.hpp>
 
 using Design = freyr::Design<ComponentList, TagList>;
 

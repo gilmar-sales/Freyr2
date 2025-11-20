@@ -19,4 +19,4 @@ using SystemList = std::tuple<InputSystem, PhysicsSystem, ScreenLimiterSystem, P
 
 #include "Events/InputEvents.hpp"
 
-#include <Freyr/Core/World.hpp>
+#include <FreyrCT/Core/World.hpp>
