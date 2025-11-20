@@ -19,3 +19,4 @@ cmake-*
 .vs
 .vscode
 .idea
+.cache

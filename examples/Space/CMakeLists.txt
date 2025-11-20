@@ -11,7 +11,7 @@ endif ()
 
 target_link_libraries(Space
         PUBLIC
-        freyr
+        freyr_ct
         glad
         glm
         ${OpenGL_LIBRARY}

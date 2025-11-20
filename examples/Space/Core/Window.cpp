@@ -2,6 +2,7 @@
 
 #include "../../dependencies/SDL/include/SDL3/SDL_init.h"
 
+#include <SDL3/SDL_video.h>
 #include <iostream>
 
 Window::Window(const std::string &title, int width, int height) : data({title, width, height}), running(true)
@@ -13,7 +14,9 @@ Window::Window(const std::string &title, int width, int height) : data({title, w
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-    nativeWindow = SDL_CreateWindow(title.c_str(), width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+    nativeWindow = SDL_CreateWindow(title.c_str(), width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
+
+    SDL_GetWindowSizeInPixels(nativeWindow, &width, &height);
 
     if (!nativeWindow) throw std::runtime_error("Failed to create SDL window!\n");
 
@@ -48,6 +51,7 @@ void Window::update() { glClear(GL_COLOR_BUFFER_BIT); }
 
 void Window::updateSize(int width, int height)
 {
+    SDL_GetWindowSizeInPixels(nativeWindow, &width, &height);
     data.width  = width;
     data.height = height;
 
